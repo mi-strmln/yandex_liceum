@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{%if l_type not in ('ol', 'ul')%}
+<div class="alert alert-danger" role="alert">
+    Неверный тип списка
+</div>
+{%else%}
+<div>
+    <h2>Список профессий</h2>
+    <{{l_type}}>
+        {%for prof in prof_list%}
+        <li>{{prof}}</li>
+        {%endfor%}
+    </{{l_type}}>
+</div>
+{%endif%}
+{% endblock %}
