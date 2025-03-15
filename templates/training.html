@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    {%if engineering%}
+        <h3>Инженерные тренажеры</h3>
+        <img src="/static/img/engineer.jpg" alt="Инженерные тренажеры">
+    {%else%}
+        <h3>Научные симуляторы</h3>
+        <img src="/static/img/science.jpg" alt="Научные симуляторы">
+    {%endif%}
+
+
+{% endblock %}
