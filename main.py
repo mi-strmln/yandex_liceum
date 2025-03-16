@@ -61,6 +61,15 @@ def main():
     db_sess.add(colonist3)
     db_sess.commit()
 
+    job1 = Jobs()
+    job1.team_leader = 1
+    job1.job = "deployment of residential modules 1 and 2"
+    job1.work_size = 15
+    job1.collaborators = "2, 3"
+    db_sess = db_session.create_session()
+    db_sess.add(job1)
+    db_sess.commit()
+
 
 if __name__ == '__main__':
     main()
