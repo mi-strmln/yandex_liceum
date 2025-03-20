@@ -1,10 +1,9 @@
-from requests import get, post, delete
+from requests import get, post, delete, put
 
 
-print(delete('http://localhost:5000/api/jobs/4').json()) # корректный запрос
-print(delete('http://localhost:5000/api/jobs/150').json()) # некорректный (с несуществующим id) запрос
-print(delete('http://localhost:5000/api/jobs/').json()) # некорректный (пустой) запрос
-print(delete('http://localhost:5000/api/jobs/с').json()) # некорректный (с неверным форматом id) запрос
+print(put('http://localhost:5000/api/jobs/1', json={
+            'job': 'deployment of residential module 2'
+        }).json())
 
 print(get('http://localhost:5000/api/jobs').json())
 
