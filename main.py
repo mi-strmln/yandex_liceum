@@ -1,23 +1,22 @@
 from flask import Flask, make_response, jsonify
-from data import db_session, jobs_api
+from flask_restful import Api
+
+from data import db_session, users_resource
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
-
-@app.errorhandler(400)
-def bad_request(_):
-    return make_response(jsonify({'error': 'Bad Request'}), 400)
-
-
-@app.errorhandler(404)
-def not_found(_):
-    return make_response(jsonify({'error': 'Not found'}), 404)
+api = Api(app, catch_all_404s=True)
 
 
 def main():
     db_session.global_init("db/mars_explorer.db")
-    app.register_blueprint(jobs_api.blueprint)
+    # для списка объектов
+    api.add_resource(users_resource.NewsListResource, '/api/v2/users')
+
+    # для одного объекта
+    api.add_resource(users_resource.NewsResource, '/api/v2/users/<int:user_id>')
+
     app.run()
 
 
