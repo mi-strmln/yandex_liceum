@@ -19,7 +19,7 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     collaborators = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     start_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                    default=datetime.datetime.now)
-    end_date = sqlalchemy.Column(sqlalchemy.DateTime)
+    end_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
 
     def __repr__(self):
