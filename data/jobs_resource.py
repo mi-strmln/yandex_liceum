@@ -9,7 +9,7 @@ def abort_if_news_not_found(job_id):
     session = db_session.create_session()
     job = session.query(Jobs).get(job_id)
     if not job:
-        abort(404, message=f"News {job_id} not found")
+        abort(404, message=f"Job {job_id} not found")
 
 
 class JobsResource(Resource):
@@ -61,7 +61,7 @@ class JobsListResource(Resource):
             job=args['job'],
             work_size=args['work_size'],
             collaborators=args['collaborators'],
-            email=args['is_finished']
+            is_finished=args['is_finished']
         )
         session.add(job)
         session.commit()

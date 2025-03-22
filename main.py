@@ -17,7 +17,7 @@ def main():
 
     # для одного объекта
     api.add_resource(users_resource.NewsResource, '/api/v2/users/<int:user_id>')
-    api.add_resource(jobs_resource.JobsResource, 'api/v2/jobs/<int:job_id>')
+    api.add_resource(jobs_resource.JobsResource, '/api/v2/jobs/<int:job_id>')
 
     app.run()
 
