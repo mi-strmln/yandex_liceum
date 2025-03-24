@@ -1,5 +1,5 @@
 from flask_restful import Resource, abort
-from flask import jsonify
+from flask import jsonify, request
 from data import db_session
 from data.jobs import Jobs
 from data.jobs_parser import parser
@@ -26,6 +26,25 @@ class JobsResource(Resource):
                   'start_date',
                   'end_date',
                   'is_finished'))})
+
+    def put(self, job_id):
+        abort_if_news_not_found(job_id)
+        session = db_session.create_session()
+        if not request.json:
+            return jsonify({'error': 'Empty request'})
+        user = session.query(Jobs).get(job_id)
+        if 'team_leader' in request.json:
+            user.leader_id = request.json['leader_id']
+        if 'job' in request.json:
+            user.job = request.json['job']
+        if 'work_size' in request.json:
+            user.work_size = request.json['work_size']
+        if 'collaborators' in request.json:
+            user.collaborators = request.json['collaborators']
+        if 'is_finished' in request.json:
+            user.is_finished = request.json['is_finished']
+        session.commit()
+        return jsonify({'success': 'OK'})
 
     def delete(self, job_id):
         abort_if_news_not_found(job_id)

@@ -12,11 +12,11 @@ api = Api(app, catch_all_404s=True)
 def main():
     db_session.global_init("db/mars_explorer.db")
     # для списка объектов
-    api.add_resource(users_resource.NewsListResource, '/api/v2/users')
+    api.add_resource(users_resource.UserListResource, '/api/v2/users')
     api.add_resource(jobs_resource.JobsListResource, '/api/v2/jobs')
 
     # для одного объекта
-    api.add_resource(users_resource.NewsResource, '/api/v2/users/<int:user_id>')
+    api.add_resource(users_resource.UserResource, '/api/v2/users/<int:user_id>')
     api.add_resource(jobs_resource.JobsResource, '/api/v2/jobs/<int:job_id>')
 
     app.run()
