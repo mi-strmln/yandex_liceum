@@ -6,8 +6,6 @@ from data.forms import RegisterForm, LoginForm
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager
 import datetime
 
-# from forms.user import RegisterForm
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
