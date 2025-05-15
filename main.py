@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
-from data.forms import RegisterForm, LoginForm
+from data.forms import RegisterForm, LoginForm, WorksForm
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager
 import datetime
 
@@ -70,6 +70,24 @@ def login():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.route('/addjob', methods=['GET', 'POST'])
+def add_work():
+    form = WorksForm()
+    if form.submit.data:
+        db_sess = db_session.create_session()
+        job = Jobs(
+            team_leader=form.team_leader.data,
+            job=form.job.data,
+            work_size=form.work_size.data,
+            collaborators=form.collaborators.data,
+            is_finished=form.is_finished.data
+        )
+        db_sess.add(job)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('add_job.html', title='Adding Job', form=form)
 
 
 def main():

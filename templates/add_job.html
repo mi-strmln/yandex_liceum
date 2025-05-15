@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+    }
+
+    .alert {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    p {
+        margin-bottom: 15px;
+    }
+</style>
+
+<h1>Adding a Job</h1>
+
+{% if message %}
+<div class="alert alert-warning" role="alert">
+    {{ message }}
+</div>
+{% endif %}
+
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.job.label }}<br>
+        {{ form.job }}
+        {% for error in form.job.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.team_leader.label }}<br>
+        {{ form.team_leader }}
+        {% for error in form.team_leader.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.work_size.label }}<br>
+        {{ form.work_size }}
+        {% for error in form.work_size.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.collaborators.label }}<br>
+        {{ form.collaborators }}
+        {% for error in form.collaborators.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.is_finished }} {{ form.is_finished.label }}
+    </p>
+    <p>{{ form.submit(class="btn btn-primary px-4") }}</p>
+</form>
+{% endblock %}
