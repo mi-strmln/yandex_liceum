@@ -1,5 +1,6 @@
 import datetime
 import sqlalchemy
+from sqlalchemy import orm
 from .db_session import SqlAlchemyBase
 
 
@@ -16,8 +17,10 @@ class Jobs(SqlAlchemyBase):
     collaborators = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     start_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                    default=datetime.datetime.now)
-    end_date = sqlalchemy.Column(sqlalchemy.DateTime)
+    end_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+
+    team_user = orm.relationship('User')
 
     def __repr__(self):
         return f'{self.team_leader} {self.job}'
