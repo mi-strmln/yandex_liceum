@@ -1,3 +1,5 @@
+# https://github.com/mi-strmln/yandex_liceum/tree/flask-sqlalchemy
+
 from flask import Flask, render_template, redirect
 from data import db_session
 from data.users import User
@@ -113,7 +115,24 @@ def redact_job(job_id):
             job.is_finished = form.is_finished.data if form.is_finished.data else job.is_finished
             db_sess.commit()
             return redirect('/')
+        else:
+            return 'Что-то пошло не так...'
     return render_template('add_job.html', title=f'Redacting Job: {job_id}', form=form, type='Redacting')
+
+
+@app.route('/delete_job/<int:job_id>', methods=['GET', 'POST'])
+def delete_job(job_id):
+    db_sess = db_session.create_session()
+    if current_user.id != 1:
+        job = db_sess.query(Jobs).filter(Jobs.id == job_id, Jobs.creator == current_user.id).first()
+    else:
+        job = db_sess.query(Jobs).filter(Jobs.id == job_id).first()
+    if job:
+        db_sess.delete(job)
+        db_sess.commit()
+    else:
+        return 'Что-то пошло не так...'
+    return redirect('/')
 
 
 def main():
