@@ -15,7 +15,7 @@
         <h1>Миссия Колонизация Марса</h1>
          {% if current_user.is_authenticated %}
                 <p>
-                    <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+                    <a class="navbar-brand" href="/logout">{{ current_user.name}} {{current_user.surname}}</a>
                 </p>
             {% else %}
                 <p>
@@ -23,6 +23,9 @@
                     <a class="btn btn-outline-success" href="/login">Log in</a>
                 </p>
             {% endif %}
+        <p>
+        <a class="navbar-brand" href="/">Mars One</a>
+        </p>
 
     </nav>
     <h4 class="p-3 mb-2 text-secondary">И на Марсе будут яблони цвести!</h4>

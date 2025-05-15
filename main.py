@@ -41,7 +41,12 @@ def reqister():
                                    message="This user already exists")
         user = User(
             name=form.name.data,
-            email=form.login.data
+            email=form.login.data,
+            surname=form.surname.data,
+            age=form.age.data,
+            position=form.position.data,
+            speciality=form.speciality.data,
+            address=form.address.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
