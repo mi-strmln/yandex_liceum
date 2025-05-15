@@ -1,15 +1,18 @@
 from requests import get, post, delete, put
 
-print(put('http://localhost:5000/api/jobs/1',
-          json={'job': 'deployment of residential module 2'}).json())  # корректный запрос
-
-print(put('http://localhost:5000/api/jobs/1',
-          json={}).json())  # некорректный (пустой) запрос
-print(put('http://localhost:5000/api/jobs/150',
-          json={'job': 'deployment of residential module 2'}).json())  # некорректный (с несуществующим id) запрос
-print(put('http://localhost:5000/api/jobs/с',
-          json={'job': 'deployment of residential module 2'}).json())  # некорректный (с неверным форматом id) запрос
-print(put('http://localhost:5000/api/jobs/150',
-          json={'leader_id': 1}).json())  # некорректный (с неверным именем поля) запрос
-
-print(get('http://localhost:5000/api/jobs').json())
+print(get('http://localhost:5000/api/users').json())
+print(get('http://localhost:5000/api/users/1').json())
+print(post('http://localhost:5000/api/users', json={
+            'name': 'Mike',
+            'surname': 'White',
+            'age': 40,
+            'position': '1student',
+            'speciality': 'biolog',
+            'address': 'module 1',
+            'email': 'mwhite@mail.ru',
+        }).json())
+print(put('http://localhost:5000/api/users/1', json={
+            'address': 'new_address'
+        }).json())
+print(delete('http://localhost:5000/api/users/3').json())
+print(get('http://localhost:5000/api/users').json())
