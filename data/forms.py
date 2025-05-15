@@ -33,3 +33,13 @@ class WorksForm(FlaskForm):
     collaborators = StringField("Collaborators' id", validators=[DataRequired()])
     is_finished = BooleanField('Is finished?', validators=[DataRequired()])
     submit = SubmitField('Add work')
+
+
+class WorksRedactionForm(FlaskForm):
+    """форма редактирования работ"""
+    team_leader = StringField('ID of captain', validators=[DataRequired()])
+    job = StringField('Job', validators=[DataRequired()])
+    work_size = StringField('Work size', validators=[DataRequired()])
+    collaborators = StringField("Collaborators' id", validators=[DataRequired()])
+    is_finished = BooleanField('Is finished?', validators=[DataRequired()])
+    submit = SubmitField('Redact work')

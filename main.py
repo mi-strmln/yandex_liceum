@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
-from data.forms import RegisterForm, LoginForm, WorksForm
+from data.forms import RegisterForm, LoginForm, WorksForm, WorksRedactionForm
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager
 import datetime
 
@@ -84,6 +84,7 @@ def add_work():
         db_sess = db_session.create_session()
         job = Jobs(
             team_leader=form.team_leader.data,
+            creator=current_user.id,
             job=form.job.data,
             work_size=form.work_size.data,
             collaborators=form.collaborators.data,
@@ -92,7 +93,27 @@ def add_work():
         db_sess.add(job)
         db_sess.commit()
         return redirect('/')
-    return render_template('add_job.html', title='Adding Job', form=form)
+    return render_template('add_job.html', title='Adding Job', form=form, type='Adding a job')
+
+
+@app.route('/redact_job/<int:job_id>', methods=['GET', 'POST'])
+def redact_job(job_id):
+    form = WorksRedactionForm()
+    if form.submit.data:
+        db_sess = db_session.create_session()
+        if current_user.id != 1:
+            job = db_sess.query(Jobs).filter(Jobs.id == job_id, Jobs.creator == current_user.id).first()
+        else:
+            job = db_sess.query(Jobs).filter(Jobs.id == job_id).first()
+        if job:
+            job.team_leader = form.team_leader.data if form.team_leader.data else job.team_leader
+            job.job = form.job.data if form.job.data else job.job
+            job.work_size = form.work_size.data if form.work_size.data else job.work_size
+            job.collaborators = form.collaborators.data if form.collaborators.data else job.collaborators
+            job.is_finished = form.is_finished.data if form.is_finished.data else job.is_finished
+            db_sess.commit()
+            return redirect('/')
+    return render_template('add_job.html', title=f'Redacting Job: {job_id}', form=form, type='Redacting')
 
 
 def main():
