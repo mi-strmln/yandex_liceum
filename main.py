@@ -4,7 +4,8 @@ from flask import Flask, render_template, redirect
 from data import db_session
 from data.users import User
 from data.jobs import Jobs
-from data.forms import RegisterForm, LoginForm, WorksForm, WorksRedactionForm
+from data.departments import Department
+from data.forms import RegisterForm, LoginForm, WorksForm, WorksRedactionForm, DepartmentsForm, DepartmentsRedactionForm
 from flask_login import login_user, logout_user, login_required, current_user, LoginManager
 import datetime
 
@@ -133,6 +134,69 @@ def delete_job(job_id):
     else:
         return 'Что-то пошло не так...'
     return redirect('/')
+
+
+@app.route("/departments")
+def journal_departments():
+    session = db_session.create_session()
+    departments = session.query(Department).all()
+    return render_template("journal_departments.html", title='List of Departments', departments=departments)
+
+
+@app.route('/add_department', methods=['GET', 'POST'])
+def add_department():
+    form = DepartmentsForm()
+    if form.submit.data:
+        db_sess = db_session.create_session()
+        department = Department(
+            title=form.title.data,
+            chief=current_user.id,
+            members=form.members.data,
+            email=form.email.data
+        )
+        db_sess.add(department)
+        db_sess.commit()
+        return redirect('/departments')
+    return render_template('add_department.html', title='Adding Department', form=form, type="Adding Department")
+
+
+@app.route('/redact_department/<int:department_id>', methods=['GET', 'POST'])
+def redact_department(department_id):
+    form = DepartmentsRedactionForm()
+    if form.submit.data:
+        db_sess = db_session.create_session()
+        if current_user.id != 1:
+            department = db_sess.query(Department).filter(Department.id == department_id,
+                                                          Department.chief == current_user.id).first()
+        else:
+            department = db_sess.query(Department).filter(Department.id == department_id).first()
+        if department:
+            department.title = form.title.data if form.title.data else department.title
+            department.chief = form.chief.data if form.chief.data else department.chief
+            department.members = form.members.data if form.members.data else department.members
+            department.email = form.email.data if form.email.data else department.email
+            db_sess.commit()
+            return redirect('/departments')
+        else:
+            return 'Что-то пошло не так...'
+    return render_template('add_department.html', title=f'Redacting Department: {department_id}', form=form,
+                           type="Redacting Department")
+
+
+@app.route('/delete_department/<int:department_id>', methods=['GET', 'POST'])
+def delete_department(department_id):
+    db_sess = db_session.create_session()
+    if current_user.id != 1:
+        department = db_sess.query(Department).filter(Department.id == department_id,
+                                                      Department.chief == current_user.id).first()
+    else:
+        department = db_sess.query(Department).filter(Department.id == department_id).first()
+    if department:
+        db_sess.delete(department)
+        db_sess.commit()
+    else:
+        return 'Что-то пошло не так...'
+    return redirect('/departments')
 
 
 def main():

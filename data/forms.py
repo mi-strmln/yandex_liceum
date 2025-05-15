@@ -43,3 +43,20 @@ class WorksRedactionForm(FlaskForm):
     collaborators = StringField("Collaborators' id", validators=[DataRequired()])
     is_finished = BooleanField('Is finished?', validators=[DataRequired()])
     submit = SubmitField('Redact work')
+
+
+class DepartmentsForm(FlaskForm):
+    """форма добавления департаментов"""
+    title = StringField('Title of Department', validators=[DataRequired()])
+    members = StringField("Members' id", validators=[DataRequired()])
+    email = EmailField('Department email', validators=[DataRequired()])
+    submit = SubmitField('Add a Department')
+
+
+class DepartmentsRedactionForm(FlaskForm):
+    """форма редактирования департаментов"""
+    title = StringField('Title of Department', validators=[DataRequired()])
+    chief = StringField('Chief', validators=[DataRequired()])
+    members = StringField("Members' id", validators=[DataRequired()])
+    email = EmailField('Department email', validators=[DataRequired()])
+    submit = SubmitField('Redact a Department')

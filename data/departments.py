@@ -13,7 +13,6 @@ class Department(SqlAlchemyBase):
     members = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
 
-    user_rel = relationship('User')
-
+    chief_user = relationship('User')
     def __repr__(self):
         return f'{self.title} {self.email}'
