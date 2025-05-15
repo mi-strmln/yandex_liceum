@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .table-wrapper {
+        max-width: 700px;
+        margin: 20px auto;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th,
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table img {
+        max-height: 400px;
+        width: auto;
+    }
+</style>
+
+<div class="table-wrapper">
+    <h2 class="text-center my-3">Оформление каюты</h2>
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">Цвет стен</th>
+                <th scope="col">Эмблема</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="background-color:{{ wall_color }}; height: 200px;"></td>
+                <td>
+                    {% if is_adult %}
+                    <img src="/static/img/adult_alien.jpg" alt="Картинку украли пришельцы">
+                    {% else %}
+                    <img src="/static/img/baby_alien.jpg" alt="Картинку украли пришельцы">
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
