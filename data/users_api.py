@@ -22,7 +22,8 @@ def get_users():
                 'speciality',
                 'address',
                 'email',
-                'modified_date'
+                'modified_date',
+                'city_from'
             )) for item in users]
         }
     )
@@ -44,7 +45,8 @@ def get_user(user_id):
                     'speciality',
                     'address',
                     'email',
-                    'modified_date'
+                    'modified_date',
+                    'city_from'
                 ))
             }
         )
